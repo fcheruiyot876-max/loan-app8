@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airtel Wallet</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #c40000, #7a0000);
+    color: white;
+}
+
+.container {
+    max-width: 420px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logout {
+    background: white;
+    color: #c40000;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Message */
+.message-box {
+    background: white;
+    color: black;
+    border-radius: 20px;
+    padding: 18px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+/* Balance */
+.balance-card {
+    background: linear-gradient(135deg, #e60000, #ff4d4d);
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.balance {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+/* Actions */
+.actions {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.action {
+    background: #ff2b2b;
+    padding: 12px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.filter-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 12px;
+    border: none;
+    background: #fff;
+    color: #c40000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* History */
+.history {
+    background: white;
+    color: black;
+    border-radius: 20px;
+    padding: 15px;
+}
+
+.tx {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    animation: fadeIn 0.4s ease;
+}
+
+.amount {
+    font-weight: bold;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(5px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.toast.show {
+    opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h3>Airtel Wallet</h3>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="message-box">
+        <h3>Hi User 👋</h3>
+        <p>Please repay your loan on time to increase your limit.</p>
+    </div>
+
+    <div class="balance-card">
+        <p>Balance</p>
+        <div class="balance">K <span id="balance">0</span></div>
+    </div>
+
+    <div class="actions">
+        <div class="action">Send</div>
+        <div class="action">Pay</div>
+        <div class="action">Deposit</div>
+        <div class="action">Withdraw</div>
+    </div>
+
+    <div class="filters">
+        <button class="filter-btn" onclick="filterTx('all')">All</button>
+        <button class="filter-btn" onclick="filterTx('sent')">Sent</button>
+        <button class="filter-btn" onclick="filterTx('received')">Received</button>
+    </div>
+
+    <div class="history" id="history"></div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let balance = Number(localStorage.getItem("loanAmount")) || 1200;
+let transactions = [];
+
+const balanceEl = document.getElementById("balance");
+const historyBox = document.getElementById("history");
+const toast = document.getElementById("toast");
+
+balanceEl.textContent = balance;
+
+// Generate fake transactions
+function addTransaction() {
+    const sent = Math.random() > 0.5;
+    const amount = Math.floor(Math.random() * 300) + 50;
+
+    transactions.unshift({
+        type: sent ? "sent" : "received",
+        amount,
+        time: new Date().toLocaleTimeString()
+    });
+
+    balance += sent ? -amount : amount;
+    balanceEl.textContent = balance;
+
+    showToast(sent, amount);
+    renderTransactions("all");
+}
+
+function renderTransactions(filter) {
+    historyBox.innerHTML = "";
+  transactions
+        .filter(tx => filter === "all" || tx.type === filter)
+        .forEach(tx => {
+            const div = document.createElement("div");
+            div.className = "tx";
+            div.innerHTML = 
+                <span>${tx.type === "sent" ? "Sent" : "Received"}<br>
+                <small>${tx.time}</small></span>
+                <span class="amount" style="color:${tx.type === "sent" ? "red" : "green"}">
+                    ${tx.type === "sent" ? "-" : "+"}K${tx.amount}
+                </span>
+            ;
+            historyBox.appendChild(div);
+        });
+}
+
+function showToast(sent, amount) {
+    toast.textContent = ${sent ? "Sent" : "Received"} K${amount};
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2500);
+}
+
+function filterTx(type) {
+    renderTransactions(type);
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.href = "/index.html";
+}
+
+// Auto generate activity
+setInterval(addTransaction, 6000);
+</script>
+
+</body>
+</html>
