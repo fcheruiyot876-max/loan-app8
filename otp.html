@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Verification</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+}
+
+.container {
+    max-width: 420px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+.otp-box {
+    display: flex;
+    gap: 12px;
+    margin: 30px 0;
+}
+
+.otp-box input {
+    width: 55px;
+    height: 55px;
+    text-align: center;
+    font-size: 22px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.otp-box input:focus {
+    border-color: #e53935;
+}
+
+.resend {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+#resendText {
+    color: #999;
+    cursor: pointer;
+}
+
+#timer {
+    color: #999;
+}
+
+.verify {
+    margin-top: 40px;
+    width: 100%;
+    padding: 14px;
+    background: #e53935;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.verify:disabled {
+    background: #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="back" onclick="history.back()">← Back</div>
+
+    <h2>OTP Verification</h2>
+    <p>Please enter the OTP you received</p>
+
+    <div class="otp-box">
+        <input maxlength="1" oninput="handleInput(this,0)">
+        <input maxlength="1" oninput="handleInput(this,1)">
+        <input maxlength="1" oninput="handleInput(this,2)">
+        <input maxlength="1" oninput="handleInput(this,3)">
+    </div>
+
+    <div class="resend">
+        <span id="resendText">RESEND OTP</span>
+        <span id="timer">00:20</span>
+    </div>
+
+    <button class="verify" id="verifyBtn" disabled onclick="verifyOTP()">
+        VERIFY
+    </button>
+
+</div>
+
+<script>
+let time = 20;
+let inputs = document.querySelectorAll(".otp-box input");
+let timer = document.getElementById("timer");
+let resend = document.getElementById("resendText");
+let btn = document.getElementById("verifyBtn");
+
+// Countdown
+function startTimer() {
+    time = 20;
+    timer.innerText = "00:20";
+    resend.style.color = "#999";
+
+    let interval = setInterval(() => {
+        time--;
+        timer.innerText = "00:" + (time < 10 ? "0" + time : time);
+
+        if (time <= 0) {
+            clearInterval(interval);
+            timer.innerText = "";
+            resend.style.color = "#e53935";
+        }
+    }, 1000);
+}
+
+startTimer();
+
+// Handle input
+function handleInput(el, index) {
+    if (el.value.length === 1 && index < 3) {
+        inputs[index + 1].focus();
+    }
+
+    checkFilled();
+}
+
+// Enable button when filled
+function checkFilled() {
+    let filled = true;
+    inputs.forEach(i => {
+        if (i.value === "") filled = false;
+    });
+
+    btn.disabled = !filled;
+}
+
+// Resend OTP
+resend.onclick = () => {
+    inputs.forEach(i => i.value = "");
+    inputs[0].focus();
+    btn.disabled = true;
+    startTimer();
+};
+
+// Verify
+function verifyOTP() {
+    btn.innerText = "Verifying...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+        window.location.href = "approved.html";
+    }, 2000);
+}
+</script>
+
+</body>
+</html>
