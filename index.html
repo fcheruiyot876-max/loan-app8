@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Airtel Premier</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(135deg,#1b0f1f,#8b1c2d);
+    color: white;
+}
+
+.container {
+    max-width: 420px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.status {
+    color: #00ff6a;
+    font-size: 14px;
+}
+
+/* TITLE */
+h1 {
+    font-size: 36px;
+    margin-top: 30px;
+}
+
+.subtitle {
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+/* CARD */
+.card {
+    margin-top: 30px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 25px;
+    padding: 25px;
+}
+
+.amount-label {
+    text-align: center;
+    opacity: 0.7;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+.amount {
+    text-align: center;
+    font-size: 48px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.slider {
+    width: 100%;
+    margin: 20px 0;
+}
+
+/* Info Boxes */
+.info {
+    display: flex;
+    gap: 10px;
+}
+
+.box {
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.box small {
+    opacity: 0.7;
+}
+
+.box h3 {
+    margin: 5px 0;
+}
+
+/* Button */
+.apply-btn {
+    width: 100%;
+    margin-top: 25px;
+    padding: 16px;
+    border-radius: 30px;
+    border: none;
+    background: #ff0033;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.apply-btn:hover {
+    background: #d9002a;
+}
+
+/* Footer Icons */
+.features {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Airtel_logo.svg/512px-Airtel_logo.svg.png" width="30">
+            Airtel Premier
+        </div>
+        <div class="status">● Online</div>
+    </div>
+
+    <!-- Title -->
+    <h1>Need Cash<br>Instantly?</h1>
+    <p class="subtitle">Get up to <b>K20,000</b> deposited directly into your mobile wallet.</p>
+
+    <!-- Card -->
+    <div class="card">
+        <div class="amount-label">LOAN AMOUNT ESTIMATE</div>
+        <div class="amount">K <span id="amount">5000</span></div>
+
+        <input type="range" id="slider" class="slider"
+               min="200" max="20000" step="100" value="5000">
+
+        <div class="info">
+            <div class="box">
+                <small>Repayment</small>
+                <h3>30 Days</h3>
+            </div>
+            <div class="box">
+                <small>Fee (10%)</small>
+                <h3>K <span id="fee">500</span></h3>
+            </div>
+        </div>
+
+        <button class="apply-btn" id="applyBtn">Apply Now</button>
+    </div>
+
+    <!-- Footer -->
+    <div class="features">
+        <div>⚡ Fast<br>5 min process</div>
+        <div>🔒 Secure<br>Encrypted</div>
+        <div>✅ Easy<br>No paperwork</div>
+    </div>
+
+</div>
+
+<script>
+const slider = document.getElementById("slider");
+const amount = document.getElementById("amount");
+const fee = document.getElementById("fee");
+const applyBtn = document.getElementById("applyBtn");
+
+slider.addEventListener("input", () => {
+    amount.textContent = slider.value;
+    fee.textContent = Math.round(slider.value * 0.1);
+});
+
+applyBtn.addEventListener("click", () => {
+    localStorage.setItem("loanAmount", slider.value);
+    window.location.href = "application.html";
+});
+</script>
+
+</body>
+</html>
