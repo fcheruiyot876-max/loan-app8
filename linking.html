@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linking Wallet</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+}
+
+.container {
+    text-align: center;
+    padding-top: 80px;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    background: #e53935;
+    border-radius: 16px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+.progress-box {
+    width: 80%;
+    margin: 25px auto;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #e53935;
+    animation: fill 3s ease-in-out forwards;
+}
+
+@keyframes fill {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 14px;
+    color: gray;
+}
+
+.checks {
+    margin-top: 40px;
+    background: white;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.check-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.check {
+    width: 22px;
+    height: 22px;
+    background: #22c55e;
+    border-radius: 50%;
+    color: white;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">a</div>
+
+    <h2>Linking Wallet</h2>
+    <p style="color:gray;">Connecting to Airtel Money...</p>
+
+    <div class="progress-box">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p class="status" id="statusText">Encrypting connection...</p>
+    </div>
+
+    <div class="checks">
+        <div class="check-item">
+            <span>Secure Handshake</span>
+            <div class="check">✓</div>
+        </div>
+        <div class="check-item">
+            <span>Airtel Wallet Link</span>
+            <div class="check">✓</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+setTimeout(() => {
+    document.getElementById("statusText").innerText = "Finalizing connection...";
+}, 1500);
+
+// Redirect to next page automatically
+setTimeout(() => {
+    window.location.href = "login.html"; // 👈 change if needed
+}, 3500);
+</script>
+
+</body>
+</html>
