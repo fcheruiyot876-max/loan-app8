@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Application</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    margin: 0;
+    background: linear-gradient(135deg,#1b0f1f,#8b1c2d);
+    color: white;
+}
+
+.container {
+    max-width: 420px;
+    margin: auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.back {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.card {
+    background: rgba(255,255,255,0.08);
+    border-radius: 22px;
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 2px solid rgba(0,255,0,0.5);
+}
+
+.section-title {
+    opacity: 0.6;
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+input, select {
+    width: 100%;
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 15px;
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 16px;
+}
+
+select {
+    background: #14233a;
+}
+
+.apply-btn {
+    width: 100%;
+    padding: 18px;
+    border-radius: 30px;
+    border: none;
+    background: white;
+    color: #c0002b;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div class="back" onclick="history.back()">←</div>
+        <h2>Loan Application</h2>
+    </div>
+
+    <!-- Loan Request -->
+    <div class="card">
+        <div class="section-title">LOAN REQUEST</div>
+
+        <label>DESIRED AMOUNT (ZMW)</label>
+        <input type="number" id="amount" placeholder="e.g. 5000">
+
+        <label style="margin-top:15px;">REPAYMENT PERIOD</label>
+        <select id="period">
+            <option value="">Select period</option>
+            <option>1 Month (30 Days)</option>
+            <option>2 Months</option>
+            <option>3 Months</option>
+        </select>
+    </div>
+
+    <!-- Identity -->
+    <div class="card">
+        <div class="section-title">PERSONAL IDENTITY</div>
+
+        <label>FULL NAME (PER NRC)</label>
+        <input type="text" id="fullname" placeholder="Full legal name">
+
+        <label style="margin-top:15px;">NRC NUMBER</label>
+        <input type="text" id="nrc" placeholder="XXXXXX/XX/X">
+
+        <label style="margin-top:15px;">AIRTEL / MTN NUMBER</label>
+        <input type="text" id="phone" placeholder="+260 97XXXXXXX">
+    </div>
+
+    <!-- Financial -->
+    <div class="card">
+        <div class="section-title">FINANCIAL STATUS</div>
+
+        <label>SOURCE OF INCOME</label>
+        <select id="income">
+            <option value="">Select Source</option>
+            <option>Employed</option>
+            <option>Business</option>
+            <option>Self-employed</option>
+        </select>
+
+        <label style="margin-top:15px;">MONTHLY INCOME (ZMW)</label>
+        <input type="number" id="salary" placeholder="Monthly Take Home">
+    </div>
+
+    <button class="apply-btn" id="applyBtn">APPLY NOW</button>
+
+</div>
+
+<script>
+document.getElementById("applyBtn").addEventListener("click", function () {
+
+    const amount = document.getElementById("amount").value.trim();
+    const period = document.getElementById("period").value;
+    const name = document.getElementById("fullname").value.trim();
+    const nrc = document.getElementById("nrc").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const income = document.getElementById("income").value;
+    const salary = document.getElementById("salary").value.trim();
+
+    if (
+        amount === "" ||
+        period === "" ||
+        name === "" ||
+        nrc === "" ||
+        phone === "" ||
+        income === "" ||
+        salary === ""
+    ) {
+        alert("⚠️ Please fill in all required fields before continuing.");
+        return;
+    }
+
+    // Save data (optional)
+    localStorage.setItem("loanAmount", amount);
+  // Redirect
+    window.location.href = "/processing.html";
+});
+</script>
+
+</body>
+</html>
