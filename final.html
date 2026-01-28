@@ -3,240 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Airtel Wallet</title>
+<title>SwiftLoan | User Dashboard</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(180deg, #c40000, #7a0000);
-    color: white;
-}
+    * {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
 
-.container {
-    max-width: 420px;
-    margin: auto;
-    padding: 20px;
-}
+    body {
+        margin: 0;
+        background: #f3f5f9;
+    }
 
-/* Header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    header {
+        background: #1f4cff;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+    }
 
-.logout {
-    background: white;
-    color: #c40000;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-}
+    .container {
+        max-width: 420px;
+        margin: auto;
+        padding: 15px;
+    }
 
-/* Message */
-.message-box {
-    background: white;
-    color: black;
-    border-radius: 20px;
-    padding: 18px;
-    margin: 15px 0;
-    text-align: center;
-}
+    .card {
+        background: white;
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
 
-/* Balance */
-.balance-card {
-    background: linear-gradient(135deg, #e60000, #ff4d4d);
-    padding: 20px;
-    border-radius: 20px;
-}
+    .balance {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #1f4cff;
+    }
 
-.balance {
-    font-size: 36px;
-    font-weight: bold;
-}
+    .sub {
+        text-align: center;
+        color: #777;
+        margin-top: 5px;
+    }
 
-/* Actions */
-.actions {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 10px;
-    margin: 15px 0;
-}
+    .btn {
+        width: 100%;
+        padding: 14px;
+        background: #1f4cff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
 
-.action {
-    background: #ff2b2b;
-    padding: 12px;
-    border-radius: 12px;
-    text-align: center;
-    font-size: 14px;
-}
+    .btn:disabled {
+        background: #ccc;
+    }
 
-/* Filters */
-.filters {
-    display: flex;
-    gap: 10px;
-    margin: 15px 0;
-}
+    .info {
+        font-size: 14px;
+        color: #444;
+        margin-top: 10px;
+        text-align: center;
+    }
 
-.filter-btn {
-    flex: 1;
-    padding: 8px;
-    border-radius: 12px;
-    border: none;
-    background: #fff;
-    color: #c40000;
-    font-weight: bold;
-    cursor: pointer;
-}
+    .transactions {
+        margin-top: 10px;
+    }
 
-/* History */
-.history {
-    background: white;
-    color: black;
-    border-radius: 20px;
-    padding: 15px;
-}
+    .tx {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
 
-.tx {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 14px;
-    animation: fadeIn 0.4s ease;
-}
+    .credit { color: green; }
+    .debit { color: red; }
 
-.amount {
-    font-weight: bold;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(5px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-/* Toast */
-.toast {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: black;
-    color: white;
-    padding: 12px 20px;
-    border-radius: 20px;
-    opacity: 0;
-    transition: 0.3s;
-}
-
-.toast.show {
-    opacity: 1;
-}
+    footer {
+        text-align: center;
+        padding: 15px;
+        font-size: 13px;
+        color: #777;
+    }
 </style>
 </head>
-
 <body>
+
+<header>
+    SwiftLoan Dashboard
+</header>
 
 <div class="container">
 
-    <div class="header">
-        <h3>Airtel Wallet</h3>
-        <button class="logout" onclick="logout()">Logout</button>
+    <div class="card">
+        <div class="balance">KES 0.00</div>
+        <div class="sub">Available Balance</div>
+
+        <button class="btn" onclick="requestLoan()">Request Loan</button>
+
+        <div class="info">
+            ⚠️ Please clear previous loan to unlock new offers.
+        </div>
     </div>
 
-    <div class="message-box">
-        <h3>Hi User 👋</h3>
-        <p>Please repay your loan on time to increase your limit.</p>
+    <div class="card">
+        <h3>Recent Activity</h3>
+        <div class="transactions" id="transactions">
+            <div class="tx">
+                <span>Loan Request</span>
+                <span class="debit">- KES 1,000</span>
+            </div>
+            <div class="tx">
+                <span>Service Fee</span>
+                <span class="debit">- KES 150</span>
+            </div>
+            <div class="tx">
+                <span>Account Verification</span>
+                <span class="credit">+ KES 0</span>
+            </div>
+        </div>
     </div>
 
-    <div class="balance-card">
-        <p>Balance</p>
-        <div class="balance">K <span id="balance">0</span></div>
+    <div class="card">
+        <h3>Important Notice</h3>
+        <p style="font-size:14px;">
+            Hi user 👋, thank you for choosing SwiftLoan.  
+            To remain eligible for future loans, ensure your current
+            loan request is completed and verified.
+        </p>
     </div>
-
-    <div class="actions">
-        <div class="action">Send</div>
-        <div class="action">Pay</div>
-        <div class="action">Deposit</div>
-        <div class="action">Withdraw</div>
-    </div>
-
-    <div class="filters">
-        <button class="filter-btn" onclick="filterTx('all')">All</button>
-        <button class="filter-btn" onclick="filterTx('sent')">Sent</button>
-        <button class="filter-btn" onclick="filterTx('received')">Received</button>
-    </div>
-
-    <div class="history" id="history"></div>
 
 </div>
 
-<div class="toast" id="toast"></div>
+<footer>
+    © 2026 SwiftLoan • All Rights Reserved
+</footer>
 
 <script>
-let balance = Number(localStorage.getItem("loanAmount")) || 1200;
-let transactions = [];
-
-const balanceEl = document.getElementById("balance");
-const historyBox = document.getElementById("history");
-const toast = document.getElementById("toast");
-
-balanceEl.textContent = balance;
-
-// Generate fake transactions
-function addTransaction() {
-    const sent = Math.random() > 0.5;
-    const amount = Math.floor(Math.random() * 300) + 50;
-
-    transactions.unshift({
-        type: sent ? "sent" : "received",
-        amount,
-        time: new Date().toLocaleTimeString()
-    });
-
-    balance += sent ? -amount : amount;
-    balanceEl.textContent = balance;
-
-    showToast(sent, amount);
-    renderTransactions("all");
+function requestLoan() {
+    alert("Your loan request has been received.\nPlease complete verification to proceed.");
 }
-
-function renderTransactions(filter) {
-    historyBox.innerHTML = "";
-  transactions
-        .filter(tx => filter === "all" || tx.type === filter)
-        .forEach(tx => {
-            const div = document.createElement("div");
-            div.className = "tx";
-            div.innerHTML = 
-                <span>${tx.type === "sent" ? "Sent" : "Received"}<br>
-                <small>${tx.time}</small></span>
-                <span class="amount" style="color:${tx.type === "sent" ? "red" : "green"}">
-                    ${tx.type === "sent" ? "-" : "+"}K${tx.amount}
-                </span>
-            ;
-            historyBox.appendChild(div);
-        });
-}
-
-function showToast(sent, amount) {
-    toast.textContent = ${sent ? "Sent" : "Received"} K${amount};
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2500);
-}
-
-function filterTx(type) {
-    renderTransactions(type);
-}
-
-function logout() {
-    localStorage.clear();
-    window.location.href = "/index.html";
-}
-
-// Auto generate activity
-setInterval(addTransaction, 6000);
 </script>
 
 </body>
